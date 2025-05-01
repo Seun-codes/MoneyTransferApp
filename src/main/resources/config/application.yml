@@ -48,3 +48,6 @@ commission:
 summary:
   job:
     cron: 0 0 3 * * *
+logs:
+  job:
+    cron: 0 0 0 * * *

@@ -20,8 +20,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     private final TransactionService transactionService;
     private final TransactionRepository transactionRepository;
     @Override
-//    @Scheduled(cron = "${commission.job.cron}" )
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(cron = "${commission.job.cron}" )
     public void generateDailySummary() {
         LocalDate day = LocalDate.now();
         TransactionSumary summary = transactionService.generateSummary(day);
@@ -29,8 +28,8 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     }
 
-    @Scheduled(fixedRate = 60000) // runs every 60 seconds
-    public void logTransactionsEveryMinute() {
+    @Scheduled(cron = "${logs.job.cron}")
+    public void logTransactions() {
         List<Transaction> transactions = transactionService.getTransactions(null, null, null, null);
         log.info("==== Transaction Log ({} total) ====", transactions.size());
         transactions.forEach(tx -> log.info("{}", tx));
@@ -59,4 +58,6 @@ public class SchedulerServiceImpl implements SchedulerService {
         log.info("Processed commission for {} transactions.", transactions.size());
 
     }
+
+
 }
